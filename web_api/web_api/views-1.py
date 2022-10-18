@@ -40,3 +40,15 @@ def delete_car(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)    
     theCar.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+"""
+Implement an endpoint ‘order-car’ where a customer-id, car-id is passed as parameters.
+The system must check that the customer with customer-id has not booked other cars. The
+system changes the status of the car with car-id from ‘available’ to ‘booked’.
+"""
+
+"""
+Implement an endpoint ‘cancel-order-car’ where a customer-id, car-id is passed as para-
+meters. The system must check that the customer with customer-id has booked for the car.
+If the customer has booked the car, the car becomes available.
+"""
