@@ -1,6 +1,6 @@
 from .models import Car, Customer
 from rest_framework.response import Response
-from .serializers import CarSerializer
+from .serializers import CarSerializer, CustomerSerializer
 from rest_framework import status
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
@@ -52,7 +52,10 @@ def order_car(request, customer_id, car_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
     except Customer.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    the_car.availability = 'booked'
+    #TODO: Serialize the_car and save it.
     serializer = CarSerializer(the_car)
+    customer = CustomerSerializer(the_customer)
     return Response(serializer.data, status=status.HTTP_200_OK)
     
     """    
