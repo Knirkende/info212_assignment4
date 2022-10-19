@@ -43,7 +43,7 @@ def delete_car(request, id):
 
 #Ole-code start
 
-@api_view(['PUT'])
+@api_view(['GET'])
 def order_car(request, customer_id, car_id):
     try:
         the_car = Car.objects.get(pk=car_id)
@@ -52,6 +52,9 @@ def order_car(request, customer_id, car_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
     except Customer.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = CarSerializer(the_car)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+    
     """    
     serializer = CarSerializer(the_car, data=request.data)
     if serializer.is_valid():
