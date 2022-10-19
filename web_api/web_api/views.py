@@ -1,4 +1,4 @@
-from .models import Car
+from .models import Car, Customer
 from rest_framework.response import Response
 from .serializers import CarSerializer
 from rest_framework import status
@@ -40,6 +40,26 @@ def delete_car(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)    
     theCar.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+#Ole-code start
+
+@api_view(['PUT'])
+def order_car(request, customer_id, car_id):
+    try:
+        the_car = Car.objects.get(pk=car_id)
+        the_customer = Customer.objects.get(pk=customer_id)
+    except Car.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except Customer.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    #TODO: Blocked until Customer model is defined + Car needs an availability field.    
+    serializer = CarSerializer(the_car, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 """
 Implement an endpoint ‘order-car’ where a customer-id, car-id is passed as parameters.
