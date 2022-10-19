@@ -52,14 +52,14 @@ def order_car(request, customer_id, car_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
     except Customer.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    #TODO: Blocked until Customer model is defined + Car needs an availability field.    
+    """    
     serializer = CarSerializer(the_car, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
+    """
 
 """
 Implement an endpoint ‘order-car’ where a customer-id, car-id is passed as parameters.
