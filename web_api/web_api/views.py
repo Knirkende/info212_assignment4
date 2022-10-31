@@ -52,26 +52,31 @@ def order_car(request, customer_id, car_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
     except Customer.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    if the_customer.booked_car != 'None':
+        return Response(status=status.HTTP_404_NOT_FOUND) #TODO: something better.
     the_car.availability = 'booked'
-    #TODO: Serialize the_car and save it.
-    serializer = CarSerializer(the_car)
-    customer = CustomerSerializer(the_customer)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    """    
-    serializer = CarSerializer(the_car, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-    """
+    the_car.save()
+    the_customer.booked_car = the_car.id
+    the_customer.save()
+    return Response(status=status.HTTP_200_OK)
 
-"""
-Implement an endpoint ‘order-car’ where a customer-id, car-id is passed as parameters.
-The system must check that the customer with customer-id has not booked other cars. The
-system changes the status of the car with car-id from ‘available’ to ‘booked’.
-"""
+@api_view(['GET'])
+def cancel_order_car(request, customer_id, car_id):
+    try:
+        the_car = Car.objects.get(pk=car_id)
+        the_customer = Customer.objects.get(pk=customer_id)
+    except Car.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except Customer.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if the_customer.booked_car != str(the_car.id):
+        return Response(status=status.HTTP_404_NOT_FOUND) #TODO: something better.
+    the_car.availability = 'available'
+    the_car.save()
+    the_customer.booked_car = 'None'
+    the_customer.save()
+    return Response(status=status.HTTP_200_OK)
+
 
 """
 Implement an endpoint ‘cancel-order-car’ where a customer-id, car-id is passed as para-
