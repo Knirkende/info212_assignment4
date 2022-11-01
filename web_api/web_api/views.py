@@ -63,6 +63,29 @@ def rent_car(request, customer_id, car_id):
     the_car.availability = 'rented'
     the_car.save()
     return Response(status=status.HTTP_200_OK)
+<<<<<<< Updated upstream
+=======
+
+@api_view(['GET'])
+def return_car(request, customer_id, car_id, car_status):
+    try:
+        the_car = Car.objects.get(pk=car_id)
+        the_customer = Customer.objects.get(pk=customer_id)
+    except Car.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except Customer.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if the_customer.booked_car != str(the_car.id):
+        return Response(status=status.HTTP_404_NOT_FOUND) #TODO: something better.
+    if car_status == 'damaged':
+        the_car.availability = 'damaged'
+    else: 
+        the_car.availability = 'available'
+    the_car.save()
+    the_customer.booked_car = 'None'
+    the_customer.save()
+    return Response(status=status.HTTP_200_OK)
+>>>>>>> Stashed changes
 
 @api_view(['GET'])
 def return_car(request, customer_id, car_id, car_status):
