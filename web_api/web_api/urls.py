@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import get_cars
+from .views import get_cars, order_car, cancel_order_car
 from .views import save_car
 from .views import update_car
 from .views import delete_car
@@ -29,5 +29,8 @@ urlpatterns = [
     path("update_car/<int:id>", update_car),
     path("delete_car/<int:id>", delete_car),
     path("rent_car/<int:costumer_id>/<int:car_id>", rent_car),
-    path("return_car/<int:costumer_id>/<int:car_id>/<car_status>", return_car)
+    path("return_car/<int:costumer_id>/<int:car_id>/<car_status>", return_car),
+    path("order_car/<int:customer_id>/<int:car_id>", order_car),
+    path("cancel_order_car/<int:customer_id>/<int:car_id>", cancel_order_car),
+    
 ]

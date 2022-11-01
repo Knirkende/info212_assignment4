@@ -1,8 +1,6 @@
-
-from .models import Car
-from .models import Car, Customer   
+from .models import Car, Customer
 from rest_framework.response import Response
-from .serializers import CarSerializer
+from .serializers import CarSerializer, CustomerSerializer
 from rest_framework import status
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
@@ -43,9 +41,43 @@ def delete_car(request, id):
     theCar.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
-#Even code
+#Ole-code start
 
 @api_view(['GET'])
+def order_car(request, customer_id, car_id):
+    try:
+        the_car = Car.objects.get(pk=car_id)
+        the_customer = Customer.objects.get(pk=customer_id)
+    except Car.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except Customer.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if the_customer.booked_car != 'None':
+        return Response(status=status.HTTP_404_NOT_FOUND) #TODO: something better.
+    the_car.availability = 'booked'
+    the_car.save()
+    the_customer.booked_car = the_car.id
+    the_customer.save()
+    return Response(status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def cancel_order_car(request, customer_id, car_id):
+    try:
+        the_car = Car.objects.get(pk=car_id)
+        the_customer = Customer.objects.get(pk=customer_id)
+    except Car.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    except Customer.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    if the_customer.booked_car != str(the_car.id):
+        return Response(status=status.HTTP_404_NOT_FOUND) #TODO: something better.
+    the_car.availability = 'available'
+    the_car.save()
+    the_customer.booked_car = 'None'
+    the_customer.save()
+    return Response(status=status.HTTP_200_OK)
+  
+  @api_view(['GET'])
 def rent_car(request, customer_id, car_id):
     try:
         the_car = Car.objects.get(pk=car_id)
