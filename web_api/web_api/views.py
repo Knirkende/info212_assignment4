@@ -77,7 +77,7 @@ def cancel_order_car(request, customer_id, car_id):
     the_customer.save()
     return Response(status=status.HTTP_200_OK)
   
-  @api_view(['GET'])
+@api_view(['GET'])
 def rent_car(request, customer_id, car_id):
     try:
         the_car = Car.objects.get(pk=car_id)
