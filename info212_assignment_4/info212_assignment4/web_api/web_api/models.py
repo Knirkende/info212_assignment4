@@ -8,15 +8,19 @@ class Car(models.Model):
         return self.make + ' ' + self.carmodel
 
 class Customer(models.Model):
-    make = models.CharField(max_length=50)
-    customername = models.CharField(max_length=50)
+    booked_car = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    age = models.CharField(max_length=50)
+    adress = models.CharField(max_length=50)
 
     def __str__(self): 
-        return self.make + ' ' + self.customername
+        return self.name + ' ' + self.booked_car
 
 class Employee(models.Model):
-    make = models.CharField(max_length=50)
     empname = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    branch = models.CharField(max_length=50)
+    adress = models.CharField(max_length=50)
 
     def __str__(self): 
-        return self.make + ' ' + self.empname
+        return self.name + ' ' + self.empname
