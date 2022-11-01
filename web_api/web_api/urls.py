@@ -28,8 +28,8 @@ urlpatterns = [
     path("save_car/", save_car),
     path("update_car/<int:id>", update_car),
     path("delete_car/<int:id>", delete_car),
-    path("rent_car/<int:costumer_id>/<int:car_id>", rent_car),
-    path("return_car/<int:costumer_id>/<int:car_id>/<car_status>", return_car),
+    path("rent_car/<int:customer_id>/<int:car_id>", rent_car),
+    path("return_car/<int:customer_id>/<int:car_id>/<car_status>", return_car),
     path("order_car/<int:customer_id>/<int:car_id>", order_car),
     path("cancel_order_car/<int:customer_id>/<int:car_id>", cancel_order_car),
     
