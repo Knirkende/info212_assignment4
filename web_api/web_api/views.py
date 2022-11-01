@@ -76,10 +76,3 @@ def cancel_order_car(request, customer_id, car_id):
     the_customer.booked_car = 'None'
     the_customer.save()
     return Response(status=status.HTTP_200_OK)
-
-
-"""
-Implement an endpoint ‘cancel-order-car’ where a customer-id, car-id is passed as para-
-meters. The system must check that the customer with customer-id has booked for the car.
-If the customer has booked the car, the car becomes available.
-"""
